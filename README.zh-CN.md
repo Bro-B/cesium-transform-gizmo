@@ -1,4 +1,4 @@
-# Cesium Transform Gizmo (模型变换手柄)
+# Cesium Transform Gizmo (模型变换交互式工具)
 
 <p align="center">
   <a href="./README.zh-CN.md">简体中文</a> |
@@ -7,66 +7,162 @@
 
 <p align="center">
   <img src="https://img.shields.io/npm/v/cesium-transform-gizmo?style=flat-square" alt="npm version" />
-  <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="license" />
+  <img src="https://img.shields.io/badge/license-Apache--2.0-green?style=flat-square" alt="license" />
   <img src="https://img.shields.io/badge/written%20in-TypeScript-blue?style=flat-square" alt="typescript" />
 </p>
 
-> 专为 CesiumJS 打造的高性能可视化模型变换控制器（Gizmo）。支持对 Model 和 3D Tileset 进行平移、旋转和缩放操作。
+> 一款专为 CesiumJS 打造的高性能、交互式模型变换控制器（Gizmo）。它为操作三维物体（模型和 3D Tileset）提供了一套直观的用户界面，支持平移、旋转和缩放功能。
 
-![Demo](./screenshots/demo.gif)
+**(注意: 演示 GIF 图片当前缺失。您可以将 `put_your_gif_link_here.gif` 替换为您的演示 GIF 链接。)**
+![Demo GIF](put_your_gif_link_here.gif)
+
+## 目录
+
+- [✨ 特性](#-特性)
+- [📦 安装](#-安装)
+- [🔨 使用说明](#-使用说明)
+- [⚙️ API 参考](#️-api-参考)
+- [🚀 在线演示](#-在线演示)
+- [🤝 贡献指南](#-贡献指南)
+- [📄 开源协议](#-开源协议)
 
 ## ✨ 特性
 
-* **三轴操作**: 标准的 XYZ 轴向平移、旋转和缩放控制。
-* **扇形旋转**: 采用类似 UE/Unity 的扇形旋转手柄，操作更直观。
-* **智能吸附**: 旋转时支持象限自动吸附，对齐更精准。
-* **坐标系切换**: 支持局部坐标系（Local）与世界坐标系（Global）切换（需自行封装逻辑）。
-* **高性能**: 优化的几何体复用与射线检测算法，在大场景下依然流畅。
-* **TypeScript**: 包含完整的类型定义文件 (.d.ts)。
+- **多种模式**: 支持平移、旋转和缩放三种操作模式。
+- **直观操控**:
+    - **平移**: 沿 X、Y、Z 轴移动物体。
+    - **旋转**: 采用扇形旋转设计，操控更直观，并支持 90 度象限智能吸附，始终面向操作者。
+    - **缩放**: 沿X、Y、Z轴缩放或均匀缩放物体。
+- **高性能**: 通过几何体复用和高效的射线检测进行了优化，确保在复杂场景下依然流畅运行。
+- **高可定制性**: 可轻松自定义 Gizmo 的外观，包括颜色和尺寸。
+- **TypeScript 支持**: 使用 TypeScript 编写，并提供完整的类型定义，带来更好的开发体验。
 
 ## 📦 安装
 
 ```bash
-npm install cesium-transform-gizmo
-# 请确保你的项目中已安装 cesium
+# 请确保您的项目中已安装 CesiumJS
 npm install cesium
+npm install cesium-transform-gizmo
 ```
 
-🔨 使用说明
-```TypeScript
-import * as Cesium from 'cesium';
-import { TransformHelper } from 'cesium-transform-gizmo';
+## 🔨 使用说明
 
-// 1. 初始化 Viewer
+```ts
+import * as Cesium from 'cesium';
+import { Gizmo } from 'cesium-transform-gizmo';
+
+// 1. 初始化 Cesium Viewer
 const viewer = new Cesium.Viewer('cesiumContainer');
 
-// 2. 加载模型或 3D Tiles
-const tileset = await Cesium.Cesium3DTileset.fromUrl('...');
+// 2. 加载模型或 3D Tileset
+const tileset = await Cesium.Cesium3DTileset.fromUrl('path/to/your/tileset.json');
 viewer.scene.primitives.add(tileset);
 
-// 3. 初始化 Gizmo 工具
-const gizmo = new TransformHelper({
+// 3. 初始化 Gizmo
+const gizmo = new Gizmo({
   viewer: viewer,
-  object: tileset, // 绑定对象，支持 Model 或 Cesium3DTileset
+  object: tileset, // 需要变换的对象 (Model 或 Cesium3DTileset)
   mode: 'translate', // 初始模式: 'translate' | 'rotate' | 'scale'
-  axisWidth: 5, // 轴线宽度
-  onUpdate: (state) => {
-    // 变换时的回调，返回当前的位置、旋转、缩放信息
-    console.log('当前位置:', state.position);
-    console.log('当前旋转:', state.rotation);
-  }
 });
 
-// 4. 动态切换模式
+// 4. 监听变换事件
+gizmo.on('update', (state) => {
+  console.log('最新位置:', state.position);
+  console.log('最新旋转:', state.rotation);
+  console.log('最新缩放:', state.scale);
+});
+
+// 5. 动态切换模式
+document.getElementById('translateBtn').onclick = () => {
+  gizmo.mode = 'translate';
+};
 document.getElementById('rotateBtn').onclick = () => {
   gizmo.mode = 'rotate';
 };
+document.getElementById('scaleBtn').onclick = () => {
+  gizmo.mode = 'scale';
+};
 ```
 
-⚙️ 配置参数
-参数名类型默认值说明viewerCesium.Viewer-Cesium 视图对象实例。objectModel | Tileset-需要操作的目标模型对象。modestring'translate'初始操作模式，可选值：translate (平移), rotate (旋转), scale (缩放)。axisWidthnumber5坐标轴线的显示宽度。onUpdatefunction-状态更新回调，参数包含变换后的 position/rotation/scale。
+## ⚙️ API 参考
 
-🤝 贡献指南
-欢迎提交 Issue 或 Pull Request！如果您有重大的功能修改建议，请先提 Issue 进行讨论。
+### `Gizmo(options)`
 
-📄 开源协议
+创建一个新的 `Gizmo` 实例。
+
+**`options` (参数):**
+
+| 参数名 | 类型 | 描述 |
+| :--- | :--- | :--- |
+| `viewer` | **Cesium.Viewer** | Cesium Viewer 实例。 |
+| `object?` | **Cesium.Model \| Cesium.Cesium3DTileset** | 可选。需要进行变换的目标对象。如果未在初始化时提供，可以稍后使用 `bindObject()` 方法绑定。 |
+| `mode?` | **string** | 可选。初始变换模式，可选值为 `'translate'`, `'rotate'`, `'scale'`。默认为 `'translate'`。 |
+| `axisWidth?`| **number** | 可选。Gizmo 坐标轴的宽度。默认为 `5`。 |
+
+### 属性
+
+-   `mode` **(string)**: 当前的变换模式。可以设置为 `'translate'`, `'rotate'`, 或 `'scale'`。
+-   `enabled` **(boolean)**: 控制 Gizmo 的可见性和交互性。设置为 `false` 可隐藏和禁用。
+
+### 方法
+
+-   `on(event: 'update', callback: (state: TransformState | null) => void)`: 注册一个回调函数来监听变换事件。
+    -   `event` **(string)**: 要监听的事件。目前仅支持 `'update'`，在每次变换步骤后触发。
+    -   `callback` **(function)**: 事件触发时调用的回调函数。回调函数会接收一个 `state` 对象，其类型为 `TransformState`。
+-   `bindObject(object?: Cesium.Model | Cesium.Cesium3DTileset)`: 绑定一个新的对象到 Gizmo，如果传入 `undefined` 或 `null`，则解绑当前对象。这允许切换正在变换的对象。
+-   `detach()`: 解绑当前对象并隐藏 Gizmo。
+-   `getTransformState(): TransformState | null`: 返回当前绑定对象的变换状态（位置、旋转、缩放）。如果没有对象被绑定，则返回 `null`。
+-   `destroy()`: 清理与 Gizmo 相关的所有资源，包括事件处理器和图元。当不再需要 Gizmo 时调用此方法。
+
+### 接口
+
+#### `TransformState`
+
+`on('update')` 事件和 `getTransformState()` 方法返回的对象的接口。
+
+```typescript
+interface TransformState {
+  position: {
+    x: number;
+    y: number;
+    z: number;
+  };
+  rotation: {
+    heading: number; // 绕 Z 轴旋转 (偏航角) - 单位：度
+    pitch: number;   // 绕 Y 轴旋转 (俯仰角) - 单位：度
+    roll: number;    // 绕 X 轴旋转 (翻滚角) - 单位：度
+  };
+  scale: {
+    x: number;
+    y: number;
+    z: number;
+  };
+}
+
+
+## 🚀 在线演示
+
+要查看 Gizmo 的实际效果，您可以运行本仓库中提供的示例。
+
+1.  克隆仓库：
+    ```bash
+    git clone https://github.com/your-username/cesium-transform-gizmo.git
+    cd cesium-transform-gizmo
+    ```
+2.  安装依赖：
+    ```bash
+    npm install
+    ```
+3.  运行示例：
+    ```bash
+    npm run dev
+    ```
+4.  在浏览器中打开 `http://localhost:5173`。
+
+## 🤝 贡献指南
+
+欢迎各种形式的贡献！如果您有功能建议、Bug 报告或代码提交，请随时创建 Issue 或提交 PR。对于重大的功能变更，请先创建 Issue 进行讨论。
+
+## 📄 开源协议
+
+本项目基于 Apache 2.0 协议开源。
