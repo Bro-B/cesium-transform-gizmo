@@ -1,0 +1,78 @@
+.mode-ctrl {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 15px;
+  border-radius: 8px; /* 圆角稍微大一点 */
+  background-color: rgba(0, 0, 0, 0.6); /* 背景稍微深一点 */
+  backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 13px;
+  min-width: 220px; /* 设定最小宽度防止文字跳动 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+
+  .title {
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 12px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 8px;
+  }
+
+  .ctrl-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 15px;
+    .btn-group {
+      width: fit-content;
+      display: flex;
+      justify-content: center;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .button {
+      padding: 3px 10px;
+      background-color: #fff;
+      color: #000;
+      cursor: pointer;
+    }
+    .active {
+      background-color: #409eff;
+      color: #fff;
+    }
+  }
+
+  /* 数据显示样式 */
+  .data-display {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .data-section {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 8px;
+      border-radius: 4px;
+
+      .sub-title {
+        font-weight: bold;
+        color: #409eff; /* 蓝色标题 */
+        margin-bottom: 5px;
+        font-size: 12px;
+      }
+
+      .data-row {
+        display: flex;
+        justify-content: space-between;
+        line-height: 1.6;
+        font-family: "Consolas", monospace; /* 使用等宽字体让数字对齐 */
+        font-size: 12px;
+        color: #ddd;
+
+        span:first-child {
+          opacity: 0.7; /* 标签颜色淡一点 */
+        }
+      }
+    }
+  }
+}

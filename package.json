@@ -1,0 +1,35 @@
+{
+  "name": "cesium-transform-gizmo",
+  "version": "0.1.0",
+  "description": "A high-performance visual transformation gizmo for CesiumJS models.",
+  "type": "module",
+  "main": "./dist/cesium-transform-gizmo.umd.js",
+  "module": "./dist/cesium-transform-gizmo.es.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build"
+  },
+  "peerDependencies": {
+    "cesium": "^1.100.0"
+  },
+  "devDependencies": {
+    "cesium": "^1.110.0",
+    "sass": "^1.97.3",
+    "typescript": "^5.0.0",
+    "vite": "^5.0.0",
+    "vite-plugin-dts": "^3.0.0"
+  },
+  "keywords": [
+    "cesium",
+    "gizmo",
+    "transform",
+    "model",
+    "3dtiles"
+  ],
+  "author": "Cyanfish",
+  "license": "Apache-2.0"
+}

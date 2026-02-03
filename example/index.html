@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Cesium Gizmo Demo</title>
+  <link rel="stylesheet" href="/Cesium/Widgets/widgets.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    #cesiumContainer {
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="cesiumContainer"></div>
+  <div class="mode-ctrl">
+    <div class="title">交互控制器模式</div>
+
+    <div class="ctrl-row">
+      <div class="btn-group">
+        <div class="button active" label="translate" id="btn-t">平移</div>
+        <div class="button" label="rotate" id="btn-r">旋转</div>
+        <div class="button" label="scale" id="btn-s">缩放</div>
+      </div>
+    </div>
+
+    <div class="data-display">
+      <div class="data-section">
+        <div class="sub-title">位置 (World)</div>
+        <div class="data-row">
+          <span>X:</span> <span id="pos-x"></span>
+        </div>
+        <div class="data-row">
+          <span>Y:</span> <span id="pos-y"></span>
+        </div>
+        <div class="data-row">
+          <span>Z:</span> <span id="pos-z"></span>
+        </div>
+      </div>
+
+      <div class="data-section">
+        <div class="sub-title">旋转 (Local ENU)</div>
+        <div class="data-row">
+          <span>H(Z):</span> <span id="rotate-z"></span>
+        </div>
+        <div class="data-row">
+          <span>P(Y):</span> <span id="rotate-y"></span>
+        </div>
+        <div class="data-row">
+          <span>R(X):</span> <span id="rotate-x"></span>
+        </div>
+      </div>
+
+      <div class="data-section">
+        <div class="sub-title">缩放</div>
+        <div class="data-row">
+          <span>X:</span> <span id="scale-x"></span>
+        </div>
+        <div class="data-row">
+          <span>Y:</span> <span id="scale-y"></span>
+        </div>
+        <div class="data-row">
+          <span>Z:</span> <span id="scale-z"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="./main.ts"></script>
+</body>
+
+</html>
