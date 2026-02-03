@@ -17,8 +17,10 @@
     "dist"
   ],
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build"
+    "dev": "pnpm run build:lib && vite --config vite.example.config.ts",
+    "build": "pnpm run build:lib",
+    "build:lib": "tsc && vite build --config vite.lib.config.ts",
+    "build:example": "vite build --config vite.example.config.ts"
   },
   "peerDependencies": {
     "cesium": "^1.100.0"
