@@ -5,6 +5,7 @@ import "./index.scss"
 declare global {
   interface Window {
     CESIUM_BASE_URL: string
+    gizmo: Gizmo
   }
 }
 type Point3D = {
@@ -45,7 +46,8 @@ const viewer = new Cesium.Viewer("cesiumContainer", {
   geocoder: true, // 保留搜索框
   homeButton: false, // 保留Home按钮
   infoBox: false, // 保留信息框
-  selectionIndicator: false, // 保留选择指示器
+  selectionIndicator: false, // 保留选择指示器,
+  scene3DOnly: true, //只支持3d模式
 })
 
 //加载3dtiles
@@ -58,6 +60,7 @@ Cesium.Cesium3DTileset.fromUrl("/public/building/tileset.json").then(
       onUpdate: updateState,
     })
     gizmo.bindObject(tileset)
+    window.gizmo = gizmo
   }
 )
 
@@ -81,21 +84,52 @@ function updateState() {
       transformData.position = state.position
       transformData.rotation = state.rotation
       transformData.scale = state.scale
+
+      // 2. 渲染数据到 HTML (新增逻辑)
+      // 辅助函数：安全设置文本内容
+      const setContent = (id: string, value: number) => {
+        const el = document.getElementById(id)
+        // 这里可以直接转字符串，因为 Gizmo 内部已经做过 toFixed 处理
+        if (el) el.textContent = String(value)
+      }
+
+      // --- 位置 (Position) ---
+      setContent("pos-x", state.position.x)
+      setContent("pos-y", state.position.y)
+      setContent("pos-z", state.position.z)
+
+      // --- 旋转 (Rotation) ---
+      // 注意映射关系：Heading->Z轴, Pitch->Y轴, Roll->X轴
+      setContent("rotate-z", state.rotation.heading)
+      setContent("rotate-y", state.rotation.pitch)
+      setContent("rotate-x", state.rotation.roll)
+
+      // --- 缩放 (Scale) ---
+      setContent("scale-x", state.scale.x)
+      setContent("scale-y", state.scale.y)
+      setContent("scale-z", state.scale.z)
     }
   }
 }
 
 //todo: GUI交互及数据渲染逻辑
-const active = "btn-t"
-document.querySelector("#btn-t")?.addEventListener("click", () => {
-  console.log("切换到平移")
-  gizmo && (gizmo.mode = "translate")
-})
-document.querySelector("#btn-r")?.addEventListener("click", () => {
-  console.log("切换到旋转")
-  gizmo && (gizmo.mode = "rotate")
-})
-document.querySelector("#btn-s")?.addEventListener("click", () => {
-  console.log("切换到缩放",gizmo)
-  gizmo && (gizmo.mode = "scale")
+// 1. 获取所有模式按钮
+const modeBtns = document.querySelectorAll<HTMLElement>(".btn-group .button")
+
+// 2. 统一绑定点击事件
+modeBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    // A. 视觉更新：排他性切换 .active
+    modeBtns.forEach((b) => b.classList.remove("active"))
+    btn.classList.add("active")
+
+    // B. 业务逻辑：获取 HTML 上的 label 属性直接作为 mode 使用
+    // label 对应: 'translate' | 'rotate' | 'scale'
+    const mode = btn.getAttribute("label") as "translate" | "rotate" | "scale"
+
+    if (gizmo && mode) {
+      console.log(`切换模式: ${mode}`)
+      gizmo.mode = mode
+    }
+  })
 })
