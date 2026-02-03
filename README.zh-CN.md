@@ -13,8 +13,11 @@
 
 > 一款专为 CesiumJS 打造的高性能、交互式模型变换控制器（Gizmo）。它为操作三维物体（模型和 3D Tileset）提供了一套直观的用户界面，支持平移、旋转和缩放功能。
 
-**(注意: 演示 GIF 图片当前缺失。您可以将 `put_your_gif_link_here.gif` 替换为您的演示 GIF 链接。)**
-![Demo GIF](put_your_gif_link_here.gif)
+![](https://picture.cyanfish.site/gizmo-%E5%B9%B3%E7%A7%BB.gif)
+
+![](https://picture.cyanfish.site/gizmo-%E6%97%8B%E8%BD%AC.gif)
+
+![](https://picture.cyanfish.site/gizmo-%E7%BC%A9%E6%94%BE.gif)
 
 ## 目录
 
