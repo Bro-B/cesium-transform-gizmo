@@ -4,15 +4,20 @@
     "useDefineForClassFields": true,
     "module": "ESNext",
     "lib": ["ESNext", "DOM"],
-    "moduleResolution": "Node",
+    "moduleResolution": "Bundler", // 推荐: Vite 项目建议使用 Bundler 而非 Node
     "strict": true,
     "sourceMap": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
-    "noEmit": false, // 允许 Vite 之外的工具输出文件
-    "declaration": true, // 生成 .d.ts
-    "skipLibCheck": true
+    "skipLibCheck": true,
+
+    /* --- 核心修改部分 --- */
+    "noEmit": false,           // 保持开启，允许输出
+    "declaration": true,       // 保持开启，生成 .d.ts
+    "outDir": "./dist",        
+    "rootDir": "./src",        
+    "emitDeclarationOnly": true 
   },
   "include": ["src"]
 }

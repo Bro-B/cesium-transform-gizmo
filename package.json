@@ -6,6 +6,13 @@
   "main": "./dist/cesium-transform-gizmo.umd.js",
   "module": "./dist/cesium-transform-gizmo.es.js",
   "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/cesium-transform-gizmo.es.js",
+      "require": "./dist/cesium-transform-gizmo.umd.js"
+    }
+  },
   "files": [
     "dist"
   ],
