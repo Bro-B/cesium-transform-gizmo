@@ -1,5 +1,5 @@
 import * as Cesium from "cesium"
-import { Gizmo } from "../src/index"
+import { Gizmo } from "@/index"
 import "./index.scss"
 
 declare global {
@@ -49,6 +49,9 @@ const viewer = new Cesium.Viewer("cesiumContainer", {
   selectionIndicator: false, // 保留选择指示器,
   scene3DOnly: true, //只支持3d模式
 })
+
+viewer.resolutionScale = window.devicePixelRatio //高分辨率适配
+viewer.scene.globe.depthTestAgainstTerrain = true // 开启深度测试
 
 //加载3dtiles
 Cesium.Cesium3DTileset.fromUrl("/public/building/tileset.json").then(
