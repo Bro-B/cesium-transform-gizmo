@@ -41,25 +41,23 @@
 
 ### 效果预览
 
-<table style="width: 100%; table-layout: fixed;">
-  <tr>
-    <td align="center" width="33%">
-      <img src="https://picture.cyanfish.site/gizmo-%E5%B9%B3%E7%A7%BB.gif" width="100%" alt="平移模式" />
-      <br />
-      <b>平移模式 (Translate)</b>
-    </td>
-    <td align="center" width="33%">
-      <img src="https://picture.cyanfish.site/gizmo-%E6%97%8B%E8%BD%AC.gif" width="100%" alt="旋转模式" />
-      <br />
-      <b>旋转模式 (Rotate)</b>
-    </td>
-    <td align="center" width="33%">
-      <img src="https://picture.cyanfish.site/gizmo-%E7%BC%A9%E6%94%BE.gif" width="100%" alt="缩放模式" />
-      <br />
-      <b>缩放模式 (Scale)</b>
-    </td>
-  </tr>
-</table>
+<p align="center">
+  <img src="https://picture.cyanfish.site/gizmo-%E5%B9%B3%E7%A7%BB.gif" width="80%" alt="平移模式" />
+  <br />
+  <b>平移模式 (Translate)</b>
+</p>
+
+<p align="center">
+  <img src="https://picture.cyanfish.site/gizmo-%E6%97%8B%E8%BD%AC.gif" width="80%" alt="旋转模式" />
+  <br />
+  <b>旋转模式 (Rotate)</b>
+</p>
+
+<p align="center">
+  <img src="https://picture.cyanfish.site/gizmo-%E7%BC%A9%E6%94%BE.gif" width="80%" alt="缩放模式" />
+  <br />
+  <b>缩放模式 (Scale)</b>
+</p>
 
 ---
 
