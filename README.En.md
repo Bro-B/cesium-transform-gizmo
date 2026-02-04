@@ -41,9 +41,25 @@
 
 ### Preview
 
-| Translate Mode | Rotate Mode | Scale Mode |
-| :---: | :---: | :---: |
-| ![](https://picture.cyanfish.site/gizmo-%E5%B9%B3%E7%A7%BB.gif) | ![](https://picture.cyanfish.site/gizmo-%E6%97%8B%E8%BD%AC.gif) | ![](https://picture.cyanfish.site/gizmo-%E7%BC%A9%E6%94%BE.gif) |
+<table style="width: 100%; table-layout: fixed;">
+  <tr>
+    <td align="center" width="33%">
+      <img src="https://picture.cyanfish.site/gizmo-%E5%B9%B3%E7%A7%BB.gif" width="100%" alt="Translate Mode" />
+      <br />
+      <b>Translate Mode</b>
+    </td>
+    <td align="center" width="33%">
+      <img src="https://picture.cyanfish.site/gizmo-%E6%97%8B%E8%BD%AC.gif" width="100%" alt="Rotate Mode" />
+      <br />
+      <b>Rotate Mode</b>
+    </td>
+    <td align="center" width="33%">
+      <img src="https://picture.cyanfish.site/gizmo-%E7%BC%A9%E6%94%BE.gif" width="100%" alt="Scale Mode" />
+      <br />
+      <b>Scale Mode</b>
+    </td>
+  </tr>
+</table>
 
 ---
 
