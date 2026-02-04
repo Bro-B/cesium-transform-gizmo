@@ -85,7 +85,7 @@ Cesium.Cesium3DTileset.fromUrl("/building/tileset.json").then(
 )
 
 
-//监听鼠标点击事件
+//鼠标点击时拾取模型或3DTileset，绑定到Gizmo进行操作
 const handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas)
 handler.setInputAction((e: Cesium.ScreenSpaceEventHandler.PositionedEvent) => {
   const res = viewer?.scene.pick(e.position)
