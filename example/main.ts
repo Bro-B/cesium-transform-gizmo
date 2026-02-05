@@ -19,7 +19,6 @@ type RotateState = {
   roll: number
 }
 
-window.CESIUM_BASE_URL = "/Cesium"
 let gizmo: Gizmo | undefined
 const transformData: {
   position: Point3D | undefined
