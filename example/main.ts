@@ -1,5 +1,5 @@
 import * as Cesium from "cesium"
-import { Gizmo } from "../src/index"
+import { Gizmo } from "@/index"
 import "./index.scss"
 
 declare global {
@@ -49,8 +49,11 @@ const viewer = new Cesium.Viewer("cesiumContainer", {
   scene3DOnly: true, //只支持3d模式
 })
 
+viewer.resolutionScale = window.devicePixelRatio //高分辨率适配
+viewer.scene.globe.depthTestAgainstTerrain = true // 开启深度测试
+
 //加载3dtiles
-Cesium.Cesium3DTileset.fromUrl("/public/building/tileset.json").then(
+Cesium.Cesium3DTileset.fromUrl("/building/tileset.json").then(
   (tileset) => {
     viewer.scene.primitives.add(tileset)
     viewer.flyTo(tileset)
@@ -60,14 +63,35 @@ Cesium.Cesium3DTileset.fromUrl("/public/building/tileset.json").then(
     })
     gizmo.bindObject(tileset)
     window.gizmo = gizmo
+
+    // 加载glb模型
+    const cartographic = Cesium.Cartographic.fromCartesian(tileset.boundingSphere.center)
+    const position = Cesium.Cartesian3.fromRadians(
+      cartographic.longitude + 0.00005,
+      cartographic.latitude,
+      cartographic.height
+    )
+    const modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(position)
+
+    Cesium.Model.fromGltfAsync({
+      url: "/wind_turbine.glb",
+      modelMatrix: modelMatrix,
+      scale: 0.05,
+    }).then((model) => {
+      viewer.scene.primitives.add(model)
+    })
   }
 )
 
-//监听鼠标点击事件
+
+//鼠标点击时拾取模型或3DTileset，绑定到Gizmo进行操作
 const handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas)
 handler.setInputAction((e: Cesium.ScreenSpaceEventHandler.PositionedEvent) => {
   const res = viewer?.scene.pick(e.position)
-  if (res && res.primitive instanceof Cesium.Cesium3DTileset) {
+  if (
+    res &&
+    (res.primitive instanceof Cesium.Cesium3DTileset || res.primitive instanceof Cesium.Model)
+  ) {
     gizmo?.bindObject(res.primitive)
   } else {
     gizmo?.bindObject()
@@ -111,7 +135,7 @@ function updateState() {
   }
 }
 
-//todo: GUI交互及数据渲染逻辑
+//GUI交互及数据渲染逻辑
 // 1. 获取所有模式按钮
 const modeBtns = document.querySelectorAll<HTMLElement>(".btn-group .button")
 

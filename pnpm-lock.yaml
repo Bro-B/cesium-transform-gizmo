@@ -10,7 +10,7 @@ importers:
     devDependencies:
       cesium:
         specifier: ^1.110.0
-        version: 1.138.0
+        version: 1.137.0
       sass:
         specifier: ^1.97.3
         version: 1.97.3
@@ -566,8 +566,8 @@ packages:
   brace-expansion@2.0.2:
     resolution: {integrity: sha512-Jt0vHyM+jmUBqojB7E1NIYadt0vI0Qxjxd2TErW94wDz+E2LAm5vKMXXwg6ZZBTHPuUlDgQHKXvjGBdfcF1ZDQ==}
 
-  cesium@1.138.0:
-    resolution: {integrity: sha512-YX7Ttd4LzAxunuzcKPyOCQa+BPc2RmenqnkM5uZkk/GVwor724bd+F3kdVP4IyMbTgxFkchXuX2Aa8L1Y0/ZxA==}
+  cesium@1.137.0:
+    resolution: {integrity: sha512-mi8wMoHkkNWHdhAjyFUURom9r8Y6iUMr2307DwQ24MF3ZXSrL6yhsrTTAT+AiKrwcqEPqoe38y+qrFE0FA7iUg==}
     engines: {node: '>=20.19.0'}
 
   chokidar@4.0.3:
@@ -813,6 +813,11 @@ packages:
 
   semver@7.5.4:
     resolution: {integrity: sha512-1bCSESV6Pv+i21Hvpxp3Dx+pSD8lIPt8uVjRrxAUt/nbswYc+tK6Y2btiULjd4+fnq15PX+nqQDC7Oft7WkwcA==}
+    engines: {node: '>=10'}
+    hasBin: true
+
+  semver@7.7.3:
+    resolution: {integrity: sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q==}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -1373,7 +1378,7 @@ snapshots:
     dependencies:
       balanced-match: 1.0.2
 
-  cesium@1.138.0:
+  cesium@1.137.0:
     dependencies:
       '@cesium/engine': 22.3.0
       '@cesium/widgets': 14.3.0
@@ -1633,6 +1638,8 @@ snapshots:
     dependencies:
       lru-cache: 6.0.0
 
+  semver@7.7.3: {}
+
   source-map-js@1.2.1: {}
 
   source-map@0.6.1: {}
@@ -1707,7 +1714,7 @@ snapshots:
     dependencies:
       '@volar/typescript': 1.11.1
       '@vue/language-core': 1.8.27(typescript@5.9.3)
-      semver: 7.5.4
+      semver: 7.7.3
       typescript: 5.9.3
 
   yallist@4.0.0: {}
