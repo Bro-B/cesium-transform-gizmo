@@ -1,11 +1,11 @@
 import * as Cesium from "cesium"
-import { Gizmo } from "@/index"
+import { TransformGizmo } from "../src/index"
 import "./index.scss"
 
 declare global {
   interface Window {
     CESIUM_BASE_URL: string
-    gizmo: Gizmo
+    gizmo: TransformGizmo
   }
 }
 type Point3D = {
@@ -19,7 +19,7 @@ type RotateState = {
   roll: number
 }
 
-let gizmo: Gizmo | undefined
+let gizmo: TransformGizmo | undefined
 const transformData: {
   position: Point3D | undefined
   rotation: RotateState | undefined
@@ -57,7 +57,7 @@ Cesium.Cesium3DTileset.fromUrl("/building/tileset.json").then(
   (tileset) => {
     viewer.scene.primitives.add(tileset)
     viewer.flyTo(tileset)
-    gizmo = new Gizmo({
+    gizmo = new TransformGizmo({
       viewer,
       onUpdate: updateState,
     })
@@ -112,7 +112,7 @@ function updateState() {
       // 辅助函数：安全设置文本内容
       const setContent = (id: string, value: number) => {
         const el = document.getElementById(id)
-        // 这里可以直接转字符串，因为 Gizmo 内部已经做过 toFixed 处理
+        // 这里可以直接转字符串，因为 TransformGizmo 内部已经做过 toFixed 处理
         if (el) el.textContent = String(value)
       }
 

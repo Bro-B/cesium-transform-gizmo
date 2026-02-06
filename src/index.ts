@@ -1,13 +1,13 @@
 import * as Cesium from "cesium"
 
 /**
- * Cesium 变换控制器 (Gizmo)
+ * Cesium 变换控制器 (TransformGizmo)
  * 
  * 一个用于 CesiumJS 应用的强大变换工具，提供对 3D 模型和 3D Tileset 的交互式平移、旋转和缩放功能。
  * 
  * @description
- * Gizmo 类创建一个可视化的操作手柄（Gizmo），附加到 Cesium 实体（Model 或 Cesium3DTileset）上。
- * 用户可以通过拖拽 Gizmo 的轴来在 3D 空间中变换对象。
+ * TransformGizmo 类创建一个可视化的操作手柄（Gizmo），附加到 Cesium 实体（Model 或 Cesium3DTileset）上。
+ * 用户可以通过拖拽 TransformGizmo 的轴来在 3D 空间中变换对象。
  * 支持三种模式：
  * - `translate` (平移): 沿 X, Y, Z 轴移动对象。
  * - `rotate` (旋转): 绕 X, Y, Z 轴旋转对象。
@@ -38,8 +38,8 @@ import * as Cesium from "cesium"
   const model = await Cesium.Model.fromGltf({ url: 'path/to/model.gltf' });
   viewer.scene.primitives.add(model);
   
-  // 3. 创建 Gizmo
-  const gizmo = new Gizmo({
+  // 3. 创建 TransformGizmo
+  const gizmo = new TransformGizmo({
     viewer: viewer,
     object: model,
     mode: 'translate',
@@ -75,7 +75,7 @@ import * as Cesium from "cesium"
     }
   }, Cesium.ScreenSpaceEventType.LEFT_CLICK)
  */
-export class Gizmo {
+export class TransformGizmo {
   // --- 核心属性 ---
   public viewer: Cesium.Viewer
   public object: Cesium.Model | Cesium.Cesium3DTileset | undefined
@@ -180,7 +180,7 @@ export class Gizmo {
     this.object = object
     this.parseCenter()
 
-    // 5. 重新创建 Gizmo (位置更新)
+    // 5. 重新创建 TransformGizmo (位置更新)
     this.createGizmo()
 
     // 6. 更新描边选中对象
@@ -304,14 +304,14 @@ export class Gizmo {
   }
 
   /**
-   * 解绑当前对象，隐藏 Gizmo
+   * 解绑当前对象，隐藏 TransformGizmo
    */
   detach() {
     this.resetState()
     this.object = null as any // 临时处理类型，或者修改属性定义允许为 null
     this.center = undefined
 
-    // 清空 Gizmo
+    // 清空 TransformGizmo
     this._primitives.removeAll()
     this._colliders = []
     this._axisPrimitives = {}
@@ -348,7 +348,7 @@ export class Gizmo {
     this._dragPlane = undefined
     this._activeScale = new Cesium.Cartesian3(1, 1, 1)
 
-    // 清除 Gizmo 高亮
+    // 清除 TransformGizmo 高亮
     this.restoreHighlight()
     this._highlightedId = null
 
@@ -914,7 +914,7 @@ export class Gizmo {
     const enuMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(this.center)
     const inverseEnu = Cesium.Matrix4.inverse(enuMatrix, new Cesium.Matrix4())
 
-    // 2. 计算相机在 Gizmo 局部坐标系下的位置向量
+    // 2. 计算相机在 TransformGizmo 局部坐标系下的位置向量
     const centerToCamera = Cesium.Cartesian3.subtract(
       camera.position,
       this.center,
