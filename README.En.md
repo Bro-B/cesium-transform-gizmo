@@ -1,7 +1,7 @@
 # Cesium Transform Gizmo
 
 <p align="center">
-  <a href="./README.md">简体中文</a> | <a href="./README.en.md">English</a>
+  <a href="./README.md">简体中文</a> | <a href="./README.En.md">English</a>
 </p>
 
 <p align="center">
@@ -16,15 +16,15 @@
 
 ## Table of Contents
 
-- [✨ Features](#-features)
-- [🚀 Live Demo](#-live-demo)
-- [📦 Installation](#-installation)
-- [🏃 Quick Start](#-quick-start)
-- [📖 Usage Guide](#-usage-guide)
-- [⚙️ API Reference](#️-api-reference)
-- [❓ FAQ](#-faq)
-- [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
+- [✨ Features](#features)
+- [🚀 Live Demo](#live-demo)
+- [📦 Installation](#installation)
+- [🏃 Quick Start](#quick-start)
+- [📖 Usage Guide](#usage-guide)
+- [⚙️ API Reference](#api-reference)
+- [❓ FAQ](#faq)
+- [🤝 Contributing](#contributing)
+- [📄 License](#license)
 
 ---
 
@@ -36,7 +36,7 @@
   - **Rotate**: Features a fan-shaped rotation design with intelligent 90-degree quadrant snapping, always facing the camera for smooth operation.
   - **Scale**: Supports scaling along axes and uniform scaling.
 - **High Performance**: Optimized based on geometry reuse and efficient ray-casting algorithms, ensuring high frame rates even in massive data scenarios.
-- **Highly Customizable**: Supports customizing the Gizmo's appearance (color, size, etc.) to match your application style.
+- **Highly Customizable**: Supports customizing the TransformGizmo's appearance (color, size, etc.) to match your application style.
 - **TypeScript Support**: Written entirely in TypeScript, providing complete type definition files (.d.ts) for a friendly development experience.
 
 ### Preview
@@ -88,13 +88,13 @@ pnpm add cesium-transform-gizmo
 
 ## 🏃 Quick Start
 
-The following example demonstrates how to initialize the Gizmo and bind it to a GLTF model.
+The following example demonstrates how to initialize the TransformGizmo and bind it to a glTF model.
 
 ### 1. Import Dependencies
 
 ```typescript
 import * as Cesium from 'cesium';
-import Gizmo from 'cesium-transform-gizmo';
+import {TransformGizmo} from 'cesium-transform-gizmo';
 ```
 
 ### 2. Initialize Viewer and Model
@@ -110,7 +110,7 @@ const roll = 0;
 const hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll);
 const orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
 
-// Load using Entity API (need to get its Primitive later)
+// Load a sample model using Entity API (the Gizmo example below will use Primitive)
 const entity = viewer.entities.add({
   position: position,
   orientation: orientation,
@@ -120,15 +120,15 @@ const entity = viewer.entities.add({
 });
 ```
 
-### 3. Create Gizmo and Bind
+### 3. Create TransformGizmo and Bind
 
 ```typescript
 // Wait for the model to load before binding
-// Note: Gizmo operates directly on the underlying Primitive object
+// Note: TransformGizmo operates directly on the underlying Primitive object
 const model = await Cesium.Model.fromGltf({ url: 'path/to/model.gltf' });
 viewer.scene.primitives.add(model);
 
-const gizmo = new Gizmo({
+const gizmo = new TransformGizmo({
   viewer: viewer,
   object: model, // Initial object to bind (can be omitted and bound later via bindObject)
   mode: 'translate', // Initial mode
@@ -144,7 +144,7 @@ const gizmo = new Gizmo({
 
 ### Switch Transformation Modes
 
-Gizmo supports dynamic switching of operation modes by modifying the `mode` property:
+TransformGizmo supports dynamic switching of operation modes by modifying the `mode` property:
 
 ```typescript
 gizmo.mode = 'translate'; // Translate
@@ -154,19 +154,19 @@ gizmo.mode = 'scale';     // Scale
 
 ### Dynamic Binding/Unbinding
 
-You can switch the target object controlled by Gizmo at runtime, supporting `Cesium.Model` and `Cesium.Cesium3DTileset`.
+You can switch the target object controlled by TransformGizmo at runtime, supporting `Cesium.Model` and `Cesium.Cesium3DTileset`.
 
 ```typescript
 // Bind a new Tileset
 gizmo.bindObject(tileset);
 
-// Unbind current object (Gizmo will be hidden)
+// Unbind current object (TransformGizmo will be hidden)
 gizmo.bindObject();
 ```
 
 ### Interactive Picking and Binding
 
-Combine with Cesium's event handler to automatically bind Gizmo when clicking on objects in the scene:
+Combine with Cesium's event handler to automatically bind TransformGizmo when clicking on objects in the scene:
 
 ```typescript
 const handler = new Cesium.ScreenSpaceEventHandler(viewer.canvas);
@@ -189,9 +189,9 @@ handler.setInputAction((event) => {
 
 ## ⚙️ API Reference
 
-### `Gizmo` Class
+### `TransformGizmo` Class
 
-#### Constructor `new Gizmo(options)`
+#### Constructor `new TransformGizmo(options)`
 
 | Parameter | Type | Required | Default | Description |
 | :--- | :--- | :---: | :---: | :--- |
@@ -202,11 +202,11 @@ handler.setInputAction((event) => {
 
 #### Properties
 
-- **`mode`**: `string`  
+- **`mode`**: `'translate'` \| `'rotate'` \| `'scale'`  
   Get or set the current transformation mode.
 
 - **`onUpdate`**: `(state: TransformState) => void`  
-  Callback function triggered when the user drags the Gizmo causing the object state to change.
+  Callback function triggered when the user drags the TransformGizmo causing the object state to change. Angles in `TransformState.rotation` are in degrees.
 
 #### Methods
 
@@ -214,13 +214,13 @@ handler.setInputAction((event) => {
   Bind a new object. Pass `null` or `undefined` to unbind the current object.
 
 - **`detach()`**  
-  Unbind the current object and hide the Gizmo (equivalent to `bindObject(null)`).
+  Unbind the current object and hide the TransformGizmo (equivalent to `bindObject(null)`).
 
 - **`getTransformState()`**  
   Get the transformation parameters of the currently bound object. Returns `TransformState`, or `null` if not bound.
 
 - **`destroy()`**  
-  Destroy the Gizmo instance and release all related resources (event listeners, Primitives, etc.).
+  Destroy the TransformGizmo instance and release all related resources (event listeners, Primitives, etc.).
 
 ### Interface Definitions
 
@@ -251,9 +251,9 @@ interface TransformState {
 ## ❓ FAQ
 
 **Q: Does it support Cesium Entity?**  
-A: Gizmo core operates on the underlying `Primitive`. For `Entity`, you need to get its internally referenced `Model` or `Primitive` object to bind. Usually, you can access it via the private property `entity.model._primitive` (not recommended as the API may change), or it is recommended to use the `Primitive` method to load the model directly.
+A: TransformGizmo core operates on the underlying `Primitive`. For `Entity`, you need to get its internally referenced `Model` or `Primitive` object to bind. Usually, you can access it via the private property `entity.model._primitive` (not recommended as the API may change), or it is recommended to use the `Primitive` method to load the model directly.
 
-**Q: Why is Gizmo not visible after binding?**  
+**Q: Why is TransformGizmo not visible after binding?**  
 A: Please check: 1. Whether the bound object has finished loading (ready); 2. Whether the camera position can see the object; 3. Whether the object's coordinates are correct.
 
 **Q: Does it support multi-selection operations?**  

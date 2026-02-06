@@ -16,15 +16,15 @@
 
 ## 目录
 
-- [✨ 特性](#-特性)
-- [🚀 在线演示](#-在线演示)
-- [📦 安装](#-安装)
-- [🏃 快速开始](#-快速开始)
-- [📖 使用指南](#-使用指南)
-- [⚙️ API 参考](#️-api-参考)
-- [❓ 常见问题](#-常见问题)
-- [🤝 贡献指南](#-贡献指南)
-- [📄 开源协议](#-开源协议)
+- [✨ 特性](#特性)
+- [🚀 在线演示](#在线演示)
+- [📦 安装](#安装)
+- [🏃 快速开始](#快速开始)
+- [📖 使用指南](#使用指南)
+- [⚙️ API 参考](#api-参考)
+- [❓ 常见问题](#常见问题)
+- [🤝 贡献指南](#贡献指南)
+- [📄 开源协议](#开源协议)
 
 ---
 
@@ -36,7 +36,7 @@
   - **旋转**：采用扇形旋转设计，支持 90 度象限智能吸附，始终面向相机，操作流畅。
   - **缩放**：支持沿轴向缩放及整体均匀缩放。
 - **高性能优化**：基于几何体复用与高效射线检测算法，确保在海量数据场景下依然保持高帧率运行。
-- **高度可定制**：支持自定义 Gizmo 的外观（颜色、尺寸等）以匹配应用风格。
+- **高度可定制**：支持自定义 TransformGizmo 的外观（颜色、尺寸等）以匹配应用风格。
 - **TypeScript 开发**：完全使用 TypeScript 编写，提供完整的类型定义文件（.d.ts），开发体验友好。
 
 ### 效果预览
@@ -88,13 +88,13 @@ pnpm add cesium-transform-gizmo
 
 ## 🏃 快速开始
 
-以下示例展示了如何初始化 Gizmo 并绑定到一个 GLTF 模型上。
+以下示例展示了如何初始化 TransformGizmo 并绑定到一个 glTF 模型上。
 
 ### 1. 引入依赖
 
 ```typescript
 import * as Cesium from 'cesium';
-import Gizmo from 'cesium-transform-gizmo';
+import {TransformGizmo} from 'cesium-transform-gizmo';
 ```
 
 ### 2. 初始化 Viewer 与模型
@@ -110,7 +110,7 @@ const roll = 0;
 const hpr = new Cesium.HeadingPitchRoll(heading, pitch, roll);
 const orientation = Cesium.Transforms.headingPitchRollQuaternion(position, hpr);
 
-// 使用 Entity API 加载（后续需获取其 Primitive）
+// 使用 Entity API 加载示例模型（下方 Gizmo 示例将使用 Primitive）
 const entity = viewer.entities.add({
   position: position,
   orientation: orientation,
@@ -120,7 +120,7 @@ const entity = viewer.entities.add({
 });
 ```
 
-### 3. 创建 Gizmo 并绑定
+### 3. 创建 TransformGizmo 并绑定
 
 ```typescript
 // 等待模型加载完成后进行绑定
@@ -128,7 +128,7 @@ const entity = viewer.entities.add({
 const model = await Cesium.Model.fromGltf({ url: 'path/to/model.gltf' });
 viewer.scene.primitives.add(model);
 
-const gizmo = new Gizmo({
+const gizmo = new TransformGizmo({
   viewer: viewer,
   object: model, // 初始绑定的对象(可先不传，后续通过bindObject方法绑定)
   mode: 'translate', // 初始模式
@@ -144,7 +144,7 @@ const gizmo = new Gizmo({
 
 ### 切换变换模式
 
-Gizmo 支持通过修改 `mode` 属性动态切换操作模式：
+TransformGizmo 支持通过修改 `mode` 属性动态切换操作模式：
 
 ```typescript
 gizmo.mode = 'translate'; // 平移
@@ -154,7 +154,7 @@ gizmo.mode = 'scale';     // 缩放
 
 ### 动态绑定/解绑对象
 
-您可以在运行时切换 Gizmo 控制的目标对象，支持 `Cesium.Model` 和 `Cesium.Cesium3DTileset`。
+您可以在运行时切换 TransformGizmo 控制的目标对象，支持 `Cesium.Model` 和 `Cesium.Cesium3DTileset`。
 
 ```typescript
 // 绑定新的 Tileset
@@ -189,9 +189,9 @@ handler.setInputAction((event) => {
 
 ## ⚙️ API 参考
 
-### `Gizmo` 类
+### `TransformGizmo` 类
 
-#### 构造函数 `new Gizmo(options)`
+#### 构造函数 `new TransformGizmo(options)`
 
 | 参数 | 类型 | 必填 | 默认值 | 描述 |
 | :--- | :--- | :---: | :---: | :--- |
@@ -202,11 +202,11 @@ handler.setInputAction((event) => {
 
 #### 属性
 
-- **`mode`**: `string`  
+- **`mode`**: `'translate'` \| `'rotate'` \| `'scale'`  
   获取或设置当前的变换模式。
 
 - **`onUpdate`**: `(state: TransformState) => void`  
-  变换回调函数，当用户拖动 Gizmo 导致对象状态改变时触发。
+  变换回调函数，当用户拖动 TransformGizmo 导致对象状态改变时触发。回调参数中的旋转角度单位为度（degree）。
 
 #### 方法
 
@@ -220,7 +220,7 @@ handler.setInputAction((event) => {
   获取当前绑定对象的变换参数。返回类型为 `TransformState`，若未绑定则返回 `null`。
 
 - **`destroy()`**  
-  销毁 Gizmo 实例，释放所有相关资源（事件监听、Primitive 等）。
+  销毁 TransformGizmo 实例，释放所有相关资源（事件监听、Primitive 等）。
 
 ### 接口定义
 
@@ -251,9 +251,9 @@ interface TransformState {
 ## ❓ 常见问题
 
 **Q: 支持操作 Cesium Entity 吗？**  
-A: Gizmo 核心操作的是底层的 `Primitive`。对于 `Entity`，您需要获取其内部引用的 `Model` 或 `Primitive` 对象进行绑定。通常可以通过访问私有属性 `entity.model._primitive` 获取（不推荐，因 API 可能变动），或建议直接使用 `Primitive` 方式加载模型。
+A: TransformGizmo 核心操作的是底层的 `Primitive`。对于 `Entity`，您需要获取其内部引用的 `Model` 或 `Primitive` 对象进行绑定。通常可以通过访问私有属性 `entity.model._primitive` 获取（不推荐，因 API 可能变动），或建议直接使用 `Primitive` 方式加载模型。
 
-**Q: 为什么 Gizmo 绑定后不可见？**  
+**Q: 为什么 TransformGizmo 绑定后不可见？**  
 A: 请检查：1. 绑定的对象是否已加载完成（ready）；2. 相机位置是否能看到该对象；3. 对象的坐标是否正确。
 
 **Q: 支持多选操作吗？**  
