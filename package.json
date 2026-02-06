@@ -1,6 +1,6 @@
 {
   "name": "cesium-transform-gizmo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A high-performance visual transformation gizmo for CesiumJS models.",
   "type": "module",
   "main": "./dist/cesium-transform-gizmo.umd.js",
@@ -19,7 +19,7 @@
   "scripts": {
     "dev": "pnpm run build:lib && vite --config vite.example.config.ts",
     "build": "pnpm run build:lib",
-    "build:lib": "tsc && vite build --config vite.lib.config.ts",
+    "build:lib": "tsc && vite build --config vite.lib.config.ts && node ./scripts/add-banner.mjs",
     "build:example": "vite build --config vite.example.config.ts"
   },
   "peerDependencies": {
@@ -39,6 +39,13 @@
     "model",
     "3dtiles"
   ],
-  "author": "Cyanfish",
+  "author": {
+    "name": "Cyanfish",
+    "url": "https://cyanfish.site"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bro-B/cesium-transform-gizmo"
+  },
   "license": "Apache-2.0"
 }

@@ -10,7 +10,7 @@ export default defineConfig({
       entry: resolve(__dirname, "src/index.ts"),
       name: "CesiumTransformGizmo",
       fileName: (format) => `cesium-transform-gizmo.${format}.js`,
-      formats: ["es", "umd"]
+      formats: ["es", "umd"],
     },
     rollupOptions: {
       external: ["cesium"],
