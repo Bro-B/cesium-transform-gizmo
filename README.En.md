@@ -16,15 +16,15 @@
 
 ## Table of Contents
 
-- [✨ Features](#features)
-- [🚀 Live Demo](#live-demo)
-- [📦 Installation](#installation)
-- [🏃 Quick Start](#quick-start)
-- [📖 Usage Guide](#usage-guide)
-- [⚙️ API Reference](#api-reference)
-- [❓ FAQ](#faq)
-- [🤝 Contributing](#contributing)
-- [📄 License](#license)
+- [✨ Features](#-features)
+- [🚀 Live Demo](#-live-demo)
+- [📦 Installation](#-installation)
+- [🏃 Quick Start](#-quick-start)
+- [📖 Usage Guide](#-usage-guide)
+- [⚙️ API Reference](#️-api-reference)
+- [❓ FAQ](#-faq)
+- [🤝 Contributing](#-contributing)
+- [📄 License](#-license)
 
 ---
 
