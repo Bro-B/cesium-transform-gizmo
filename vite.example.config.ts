@@ -8,8 +8,7 @@ export default defineConfig({
   root: resolve(__dirname, "./example"),
   publicDir: resolve(__dirname, "./example/public"),
   server: {
-    port: 3000,
-    open: true
+    port: 5173,
   },
   resolve: {
     alias: {
